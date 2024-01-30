@@ -7,6 +7,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -55,7 +57,6 @@ fun Stuff(){
 @Composable
 fun Greeting(quote: String, modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.padding(8.dp)
     ) {
         Surface(color = Color.White, modifier = modifier.align(alignment = Alignment.End)) {
             Text(
@@ -82,11 +83,36 @@ fun Greeting(quote: String, modifier: Modifier = Modifier) {
             textAlign = TextAlign.Center
         )
         val image = painterResource(R.drawable.sonic)
-        Image(
-            painter = image,
-            contentDescription = "sonic",
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
+        Surface(
+            color = Color.Black,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(10.dp)
+        ) {
+            Image(
+                painter = image,
+                contentDescription = "sonic",
+                modifier = Modifier.padding(10.dp)
+            )
+        }
+
+        Surface(
+            color = Color.White,
+            modifier = Modifier
+                .height(20.dp)
+                .fillMaxWidth()
+        ){}
+        Surface(
+            color = Color.hsl(240F, 0.85F,0.25F),
+            modifier = Modifier
+                .fillMaxWidth()
+        ){
+            Text(
+                text = stringResource(R.string.escape_from_the_city),
+                color = Color.White,
+                modifier = Modifier.padding(5.dp)
+            )
+        }
     }
 }
 
