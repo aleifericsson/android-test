@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">First</string>
+    <string name="sonic_quote">Piracy is always justifiable!</string>
+    <string name="system_message_message">System Message</string>
+    <string name="sonic_says">Sonic Says:</string>
+</resources>
