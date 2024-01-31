@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.first.ui.theme.FirstTheme
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -49,7 +50,16 @@ fun Stuff(){
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
-            Greeting(stringResource(R.string.sonic_quote))
+
+            val str = when ((0..10).random()){
+                in 1..3 -> stringResource(R.string.sonic_quote1)
+                4,5,8 -> stringResource(R.string.sonic_quote2)
+                7 -> stringResource(R.string.sonic_quote4)
+                in 6..10 -> stringResource(R.string.sonic_quote3)
+                else -> stringResource(R.string.sonic_quote5)
+            }
+
+            Greeting(str)
         }
     }
 }
@@ -116,10 +126,36 @@ fun Greeting(quote: String, modifier: Modifier = Modifier) {
     }
 }
 
+class BoxThing(val height:Int, val width:Int, val name:String){
+    val color = Color.White
+    var textcol = Color.Black
+    constructor( height:Int, width:Int, color: Color):this(height,width,"null") {
+        textcol = Color.White
+    }
+    @Composable
+    fun GetComponent(){
+        return(
+                Surface(
+                    color = this.color,
+                    modifier = Modifier
+                        .height(this.height.dp)
+                        .width(this.width.dp)
+                ){
+                    Text(
+                        text = this.name,
+                        color = this.textcol,
+                    )
+                })
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     FirstTheme {
+        val inst = BoxThing(100,200,Color.Blue)
+        inst.GetComponent()
         Stuff()
     }
 }
