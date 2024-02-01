@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.foundation.rememberScrollState
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,13 +77,16 @@ fun Stuff(){
 @Composable
 fun Greeting(quote: String, modifier: Modifier = Modifier) {
     Column(
+        modifier = Modifier
+        .verticalScroll(rememberScrollState())
     ) {
         Surface(color = Color.White, modifier = modifier.align(alignment = Alignment.End)) {
             Text(
                 text = stringResource(R.string.system_message_message),
                 fontSize = 14.sp,
                 lineHeight = 16.sp,
-                modifier = modifier.padding(5.dp)
+                modifier = modifier
+                    .padding(5.dp)
             )
         }
         Text(
@@ -129,29 +134,41 @@ fun Greeting(quote: String, modifier: Modifier = Modifier) {
                 .height(20.dp)
                 .fillMaxWidth()
         ){}
-        Surface(
-            color = Color.hsl(240F, 0.85F,0.25F),
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
         ){
-            /*
-            Text(
-                text = stringResource(R.string.escape_from_the_city),
-                color = Color.White,
-                modifier = Modifier.padding(5.dp)
-            )
-            */
-            Button(onClick = { result = (1..25).random() },
-                modifier=Modifier.padding(15.dp)
-            ) {
+
+            Surface(color = Color.hsl(240F, 0.85F,0.25F),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+            ){
+                Button(
+                    onClick = { result = (1..25).random() },
+                    modifier = Modifier
+                        .padding(15.dp)
+                        .height(75.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.change_sonic),
+                        fontSize = 30.sp,
+                        lineHeight = 35.sp
+                    )
+                }
+            }
+            Surface(color = Color.hsl(240F, 0.85F,0.25F),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+            ){
                 Text(
-                    text = stringResource(R.string.change_sonic),
-                    fontSize = 30.sp,
-                    lineHeight = 35.sp
+                    text = stringResource(R.string.escape_from_the_city),
+                    color = Color.White,
+                    modifier = Modifier.padding(5.dp)
                 )
             }
-
         }
     }
 }
