@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,13 +20,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.first.ui.theme.FirstTheme
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,9 +79,9 @@ fun Greeting(quote: String, modifier: Modifier = Modifier) {
         Surface(color = Color.White, modifier = modifier.align(alignment = Alignment.End)) {
             Text(
                 text = stringResource(R.string.system_message_message),
-                fontSize = 17.sp,
-                lineHeight = 20.sp,
-                modifier = modifier.padding(10.dp)
+                fontSize = 14.sp,
+                lineHeight = 16.sp,
+                modifier = modifier.padding(5.dp)
             )
         }
         Text(
@@ -81,18 +89,27 @@ fun Greeting(quote: String, modifier: Modifier = Modifier) {
             text = stringResource(R.string.sonic_says),
             fontSize = 25.sp,
             lineHeight = 26.sp,
-            modifier = modifier.padding(15.dp),
+            modifier = modifier.padding(start = 10.dp),
             textAlign = TextAlign.Center
         )
         Text(
             color = Color.White,
             text = quote,
-            fontSize = 60.sp,
-            lineHeight = 66.sp,
-            modifier = modifier.padding(20.dp),
+            fontSize = 50.sp,
+            lineHeight = 54.sp,
+            modifier = modifier.padding(top = 10.dp, bottom = 10.dp, start = 15.dp, end=15.dp),
             textAlign = TextAlign.Center
         )
-        val image = painterResource(R.drawable.sonic)
+        var result by remember { mutableIntStateOf( 1) }
+
+        val image = when (result) {
+            1 -> painterResource(R.drawable.blaze)
+            in 2..6 -> painterResource(R.drawable.sonic1)
+            in 7..11 -> painterResource(R.drawable.sonic2)
+            in 12..16 -> painterResource(R.drawable.sonic3)
+            in 17..21 -> painterResource(R.drawable.sonic4)
+            else -> painterResource(R.drawable.sonic5)
+        }
         Surface(
             color = Color.Black,
             modifier = Modifier
@@ -116,12 +133,25 @@ fun Greeting(quote: String, modifier: Modifier = Modifier) {
             color = Color.hsl(240F, 0.85F,0.25F),
             modifier = Modifier
                 .fillMaxWidth()
+                .fillMaxHeight()
         ){
+            /*
             Text(
                 text = stringResource(R.string.escape_from_the_city),
                 color = Color.White,
                 modifier = Modifier.padding(5.dp)
             )
+            */
+            Button(onClick = { result = (1..25).random() },
+                modifier=Modifier.padding(15.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.change_sonic),
+                    fontSize = 30.sp,
+                    lineHeight = 35.sp
+                )
+            }
+
         }
     }
 }
