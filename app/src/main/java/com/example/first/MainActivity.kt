@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -36,13 +37,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.TextField
+import androidx.compose.ui.text.input.KeyboardType
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FirstTheme {
-                Stuff()
+                Surface (modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                    Column(modifier = Modifier
+                        .verticalScroll(rememberScrollState())){
+                        Stuff()
+                        TheApp2()
+                    }
+                }
             }
         }
     }
@@ -51,7 +61,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Stuff(){
     // A surface container using the 'background' color from the theme
-    Surface (modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Box  {
             val image = painterResource(R.drawable.minecraft_background_2)
             Image(
@@ -65,20 +74,19 @@ fun Stuff(){
                 in 1..3 -> stringResource(R.string.sonic_quote1)
                 4,5,8 -> stringResource(R.string.sonic_quote2)
                 7 -> stringResource(R.string.sonic_quote4)
-                in 6..10 -> stringResource(R.string.sonic_quote3)
+                in 6..9 -> stringResource(R.string.sonic_quote3)
                 else -> stringResource(R.string.sonic_quote5)
             }
 
             Greeting(str)
         }
-    }
+
 }
 
 @Composable
 fun Greeting(quote: String, modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
-        .verticalScroll(rememberScrollState())
+
     ) {
         Surface(color = Color.White, modifier = modifier.align(alignment = Alignment.End)) {
             Text(
@@ -202,7 +210,37 @@ class BoxThing(val height:Int, val width:Int, val name:String){
 fun GreetingPreview() {
     FirstTheme {
         val inst = BoxThing(100,200,Color.Blue)
+        Surface (modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         inst.GetComponent()
-        Stuff()
+            Stuff()
+            TheApp2()
+        }
     }
+}
+
+
+@Composable
+fun TheApp2(modifier: Modifier = Modifier){
+        Column (
+            modifier = Modifier
+                .padding(10.dp)
+        ){
+            var amountInput by remember { mutableStateOf("0") }
+            Surface(modifier = Modifier
+                .padding(bottom = 32.dp)
+                .fillMaxWidth()){
+                TextField(
+                    value = amountInput,
+                    label = {
+                        Text(
+                            text = stringResource(R.string.enter_something)
+                        )
+                    },
+                    onValueChange = { amountInput = it },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    modifier = modifier.border(width = 5.dp, color = Color.LightGray),
+                )
+            }
+        }
 }

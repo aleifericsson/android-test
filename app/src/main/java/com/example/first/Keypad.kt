@@ -54,8 +54,8 @@ class Keypad : ComponentActivity() {
     }
 }
 
+@Preview(showBackground = true)
 @Composable
-@Preview
 fun TheApp(modifier: Modifier = Modifier){
     Surface (modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Column (
