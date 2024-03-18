@@ -3,10 +3,13 @@ package com.example.first
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,7 +24,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.first.ui.theme.FirstTheme
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -39,7 +44,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.TextField
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import java.text.NumberFormat
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,7 +120,7 @@ fun Greeting(quote: String, modifier: Modifier = Modifier) {
             modifier = modifier.padding(top = 10.dp, bottom = 10.dp, start = 15.dp, end=15.dp),
             textAlign = TextAlign.Center
         )
-        var result by remember { mutableIntStateOf( 1) }
+        var result by remember { mutableIntStateOf( 22) }
 
         val image = when (result) {
             1 -> painterResource(R.drawable.blaze)
@@ -221,26 +228,77 @@ fun GreetingPreview() {
 
 @Composable
 fun TheApp2(modifier: Modifier = Modifier){
-        Column (
+    var amountInput by remember { mutableStateOf("") }
+    val amount = amountInput.toDoubleOrNull() ?: 0.0//wow it's like javascript
+    var percentInput by remember { mutableStateOf( "15.0")}
+    val percent = percentInput.toDoubleOrNull() ?: 0.0
+    val tip = calculateTip(amount, percent)
+
+    Column(
+        modifier = Modifier
+            .statusBarsPadding()
+            .padding(horizontal = 30.dp)
+            .safeDrawingPadding(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ){
+        Text(
+            text = stringResource(R.string.calculate_tip),
             modifier = Modifier
-                .padding(10.dp)
-        ){
-            var amountInput by remember { mutableStateOf("0") }
-            Surface(modifier = Modifier
+                .padding(bottom = 16.dp, top = 40.dp)
+                .align(alignment = Alignment.Start)
+        )
+        EditNumberField(
+            bruh = amountInput,
+            onBruhChange = {amountInput = it},
+            label = R.string.bill_amount,
+            keyOps = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Next
+            ),
+            modifier = Modifier
                 .padding(bottom = 32.dp)
-                .fillMaxWidth()){
-                TextField(
-                    value = amountInput,
-                    label = {
-                        Text(
-                            text = stringResource(R.string.enter_something)
-                        )
-                    },
-                    onValueChange = { amountInput = it },
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    modifier = modifier.border(width = 5.dp, color = Color.LightGray),
-                )
-            }
-        }
+                .fillMaxWidth()
+        )
+        EditNumberField(
+            bruh = percentInput,
+            onBruhChange = {percentInput = it},
+            label = R.string.tip_percentage,
+            keyOps = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            ),
+            modifier = Modifier
+                .padding(bottom = 32.dp)
+                .fillMaxWidth()
+        )
+        Text(
+            text = stringResource(R.string.tip_amount, tip),
+            style = MaterialTheme.typography.displaySmall
+        )
+        Spacer(modifier = Modifier.height(150.dp))
+    }
 }
+
+@Composable
+fun EditNumberField(
+    @StringRes label: Int,
+    bruh: String,
+    onBruhChange: (String) -> Unit, //bruh moment
+    keyOps: KeyboardOptions,
+    modifier: Modifier = Modifier){
+    TextField(
+        value = bruh,
+        onValueChange = onBruhChange,
+        modifier = modifier,
+        label = {Text(stringResource(label))},
+        singleLine = true,
+        keyboardOptions = keyOps
+    )
+}
+
+private fun calculateTip(amount: Double, tipPercent: Double = 15.0): String{
+    val tip = tipPercent / 100*amount
+    return NumberFormat.getCurrencyInstance().format(tip)
+}
+

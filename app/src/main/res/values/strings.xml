@@ -9,5 +9,10 @@
     <string name="sonic_says">Sonic Says:</string>
     <string name="escape_from_the_city">Woo!\nOh, yeah!\nRolling around at the speed of sound\nGot places to go\nGotta follow my rainbow\nCan\'t stick around, have to keep movin\' on\nGuess what lies ahead\nOnly one way to find out\nMust keep on movin\' ahead\nNo time for guessin\', follow my plan instead\nTrusting in what you can\'t see\nTake my lead, I\'ll set you free\nFollow me, set me free\nTrust me and we will escape from the city\nI\'ll make it through, follow me\nFollow me, set me free\nTrust me and we will escape from the city\nI\'ll make it through, prove it to you\nFollow me!\nOh, yeah!\nDanger is lurking around every turn\nTrust your feelings\nYou\'ve got to live and learn\nI know with some luck that I\'ll make it through\nGot no other options\nOnly one thing to do\nI don\'t care what lies ahead\nNo time for guessin\', follow my plan instead\nFind that next stage no matter what that may be\nTake my lead, I\'ll set you free\nFollow me, set me free\nTrust me and we will escape from the city\nI\'ll make it through, follow me\nFollow me, set me free\nTrust me and we will escape from the city\nI\'ll make it through, prove it to you\nFollow me!\nFollow me!\nI\'ll make it through, oh, yeah!</string>
     <string name="change_sonic">Change Sonic</string>
+    <string name="calculate_tip">Calculate Tip:</string>
     <string name="enter_something">enter something</string>
+    <string name="tip_amount">Tip amount: %s</string> <!-- this is how to join strings ig-->
+    <string name="bill_amount">Bill amount: </string>
+    <string name = "tip_percentage">Tip Pourcentage: </string>
+    <string name = "round">Round up tip? </string>
 </resources>
