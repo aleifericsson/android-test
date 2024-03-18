@@ -9,6 +9,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,6 +43,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -291,14 +293,37 @@ fun EditNumberField(
         value = bruh,
         onValueChange = onBruhChange,
         modifier = modifier,
-        label = {Text(stringResource(label))},
+        label = {Text(text = stringResource(label))},
         singleLine = true,
         keyboardOptions = keyOps
     )
 }
 
-private fun calculateTip(amount: Double, tipPercent: Double = 15.0): String{
-    val tip = tipPercent / 100*amount
+@Composable
+fun RoundUp(
+    thing: Boolean,
+    onThingChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+){
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .fillMaxWidth()
+            .size(48.dp)
+    ){
+        Text(text = stringResource(id = R.string.round))
+        Switch(
+            checked = thing,
+            onCheckedChange = onThingChange,
+        )
+    }
+}
+
+private fun calculateTip(amount: Double, tipPercent: Double = 15.0, roundUp:Boolean=false): String{
+    var tip = tipPercent / 100*amount
+    if (roundUp){
+        tip = kotlin.math.ceil(tip)
+    }
     return NumberFormat.getCurrencyInstance().format(tip)
 }
 
